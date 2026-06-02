@@ -28,7 +28,7 @@ export default function Footer() {
         </div>
 
         <div className="text-center pt-8 border-t border-white/5 text-sm text-slate-500">
-          <p>&copy; {new Date().getFullYear()} Pradeep M K. Built with Next.js & Tailwind CSS.</p>
+          <p>&copy; {new Date().getFullYear()} Pradeep M K.</p>
         </div>
       </div>
     </footer>
