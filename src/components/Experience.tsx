@@ -1,7 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Briefcase, GraduationCap, Award } from "lucide-react";
+
+interface LeetCodeStats {
+  username: string;
+  totalSolved: number;
+  easySolved: number;
+  mediumSolved: number;
+  hardSolved: number;
+  contestRating: number;
+  globalRanking: number;
+  topPercentage: number;
+  attendedContests: number;
+  profileRanking: number;
+  badge: string;
+  updatedAt: string;
+}
 
 const experiences = [
   {
@@ -32,6 +48,27 @@ const certifications = [
 ];
 
 export default function Experience() {
+  const [stats, setStats] = useState<LeetCodeStats | null>(null);
+  useEffect(() => {
+  async function loadStats() {
+    try {
+      const res = await fetch("/data/leetcode.json", {
+        cache: "no-store",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to load LeetCode stats");
+      }
+
+      const data = await res.json();
+      setStats(data);
+    } catch (error) {
+      console.error("Failed to fetch LeetCode stats:", error);
+    }
+  }
+
+  loadStats();
+}, []);
   return (
     <section id="experience" className="py-24 relative bg-[#0d0d14]">
       <div className="container mx-auto px-6 max-w-6xl">
@@ -134,22 +171,22 @@ export default function Experience() {
                   </a>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-white">295</div>
+                  <div className="text-2xl font-bold text-white">{stats?.totalSolved ?? "--"}</div>
                   <div className="text-xs font-medium text-slate-400 uppercase tracking-wider">Problems Solved</div>
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="bg-black/20 p-3 rounded-lg border border-white/5 text-center">
-                  <div className="text-sm font-semibold text-[#00b8a3]">147</div>
+                  <div className="text-sm font-semibold text-[#00b8a3]">{stats?.easySolved ?? "--"}</div>
                   <div className="text-[10px] text-slate-400 uppercase">Easy</div>
                 </div>
                 <div className="bg-black/20 p-3 rounded-lg border border-white/5 text-center">
-                  <div className="text-sm font-semibold text-[#ffc01e]">126</div>
+                  <div className="text-sm font-semibold text-[#ffc01e]">{stats?.mediumSolved ?? "--"}</div>
                   <div className="text-[10px] text-slate-400 uppercase">Medium</div>
                 </div>
                 <div className="bg-black/20 p-3 rounded-lg border border-white/5 text-center">
-                  <div className="text-sm font-semibold text-[#ef4743]">22</div>
+                  <div className="text-sm font-semibold text-[#ef4743]">{stats?.hardSolved ?? "--"}</div>
                   <div className="text-[10px] text-slate-400 uppercase">Hard</div>
                 </div>
               </div>
@@ -157,15 +194,15 @@ export default function Experience() {
               <div className="space-y-3">
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-slate-400">Contest Rating</span>
-                  <span className="font-semibold text-white">1,530</span>
+                  <span className="font-semibold text-white">{stats?.contestRating ?? "--"}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-slate-400">Global Ranking</span>
-                  <span className="font-semibold text-white">Top 36.39%</span>
+                  <span className="font-semibold text-white">{stats?.globalRanking ?? "--"}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-slate-400">Recent Badge</span>
-                  <span className="font-semibold text-[#ffa116]">50 Days Badge 2026</span>
+                  <span className="font-semibold text-[#ffa116]">{stats?.badge ?? "--"}</span>
                 </div>
               </div>
             </motion.div>
