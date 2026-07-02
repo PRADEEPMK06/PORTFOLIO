@@ -1,0 +1,48 @@
+name: Update LeetCode Stats
+
+on:
+  schedule:
+    # Runs at the beginning of every hour
+    - cron: "0 * * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-leetcode:
+    runs-on: ubuntu-latest
+
+    env:
+      LEETCODE_USERNAME: ${{ vars.LEETCODE_USERNAME }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Fetch Latest LeetCode Stats
+        run: node scripts/fetch-leetcode.js
+
+      - name: Commit Updated JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add public/data/leetcode.json
+
+          # Exit if nothing changed
+          git diff --cached --quiet && exit 0
+
+          git commit -m "chore: update LeetCode stats"
+
+          git push
