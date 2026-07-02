@@ -12,12 +12,15 @@ permissions:
   contents: read
 
 env:
-  AWS_REGION: ap-south-1
-  S3_BUCKET: your-s3-bucket-name
+  AWS_REGION: us-east-1
+  S3_BUCKET: pradeepmk-portfolio
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    env:
+      LEETCODE_USERNAME: ${{ secrets.LEETCODE_USERNAME }}
 
     steps:
       - name: Checkout Repository
@@ -36,8 +39,7 @@ jobs:
         run: node scripts/fetch-leetcode.js
 
       - name: Build Next.js Application
-        run: |
-          npm run build
+        run: npm run build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
