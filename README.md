@@ -133,13 +133,3 @@ This project is open source and available under the MIT License.
 **Pradeep M K** - DevOps & Cloud Engineer
 - 🔗 GitHub: [@PRADEEPMK06](https://github.com/PRADEEPMK06)
 - 📧 Contact: Through portfolio contact form
-
----
-
-**Built with ❤️ using modern web technologies**
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
